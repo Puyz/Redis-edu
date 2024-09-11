@@ -63,6 +63,16 @@ Yazılım süreçlerinde verilere daha hızlı erişebilmek için bu verilerin b
 
 
 
+# In-Memory Cache
+
+## Absolute & Sliding Expiration
+**Absolute Time:** Cache'de ki datanın ne kadar tutulacağına dair net ömrünün belirtilmesidir. Belirtilen ömür sona erdiğinde cache direkt olarak temizlenir.
+**Sliding Time:** Cache'lenmiş datanın memory'de belirtilen süre periyodu zarfında tutulmasını belirtir. Belirtilen süre periyodu içerisinde cache'e yapılan erişim neticesinde de datanın ömrü bir o kadar uzatılacaktır. Aksi taktirde belirtilen süre zarfında bir erişim söz konusu olmazsa cache temizlenecektir.
+
+
+
+
+
 
 
 
