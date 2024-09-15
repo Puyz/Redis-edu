@@ -62,6 +62,44 @@ Yazılım süreçlerinde verilere daha hızlı erişebilmek için bu verilerin b
 **Geospatial Indexes:** Coğrafi koordinatlann saklanmasını sağlayan veri türüdür.
 
 
+### Replication Davranışı Nedir?
+Replication, bir redis sunucusundaki tüm verisel yapının farklı bir sunucu tarafından birebir modellenmesi/çoğaltılması/replike edilmesidir. Bu sayede verilerin güvencesini sağlayabilir ve bir kopyasını saklayabilmek için önlemler alabiliriz.
+
+#### Replication Davranışındaki Temel Terminolojiler Nelerdir?
+**Master:** Replication davranışında modellenecek/replikası alınacak olan sunucuya **master** adını veriyoruz. Yani ana redis sunucumuzdur.
+
+**Slave:** Master'ın replikasını alan sunucuya ise **slave** adını veriyoruz. Slaveler, master'a subscribe olup masterda veri güncellendikçe kendilerini update eder ve orjinal veriye sahip olur.
+
+****!**** *Replication özelliğinde master ve slave arasında kurulan bir bağlantı üzerinden master'daki tüm değişiklikler anlık olarak slave sunuculara aktarılıyor olacaktır. Bu bağlantı koptuğu taktirde otomatik olarak yeniden sağlanılarak, verisel güvence sergilenmeye çalışılacaktır. Haliyle bu davranış sayesinde master sunucuda olabilecek arıza veya kesinti durumlarında sorumluluğu slave sunucuların otomatik devralmasıyla kesintisiz bir hizmet sağlayabiliyor olacağız. Eğer ki, master ile slave arasında verisel bir eşitleme durumu tam olarak gerçekleşmemişse Redis bunun olabilmesi için talepte bulunacak ve masterdan güncel verilerin slave'e aktarılması için kaynak tüketimine devam edecektir.*
+
+****!**** *Bir masterın birden fazla replikasyonu da olabilir. Böylece, birden fazla slave sunucunun olmasıyla yüksek kullanılabilirlik, yedekleme ve kurtarma, veri ölçeklendirme ve coğrafi olarak dağıtılmış sistemler gibi senaryolarda yararlı çalışmalar gerçekleştirebiliriz.*
+
+****!**** *Ek olarak, slave sunuculan test süreçlerinde kullanabilir ve verisel güvenceyi sağlayabiliriz.*
+
+#### Replication Uygulanması
+
+Replication davranışını sergileyebilmek için öncelikle Redis sunucularını ayağa kaldırmamız gerekmektedir.
+
+```bash
+  docker run -p 1333:6379 —name redis-master -d redis
+```
+```bash
+  docker run -p 1334:6379 —name redis-slave -d redis
+```
+
+Ardından master'la slave sunucusu arasındaki replication ilişkisini sağlayabilmek için master'ın IP'sini elde etmemiz gerekmektedir. Bunun için aşağıdaki talimatı çalıştıralım.
+
+```bash
+  docker inspect -f "{{ .NetworkSettings.IPAddress }}" redis-master
+```
+
+Son olarak master ile slave arasında replication ilişkisini oluşturalım. 
+
+*<master-ip> <master-port>*
+
+```bash
+  docker exec -it redis-slave redis-cli slaveof 172.17.0.3 1333
+```
 
 # In-Memory Cache
 
@@ -71,10 +109,6 @@ Yazılım süreçlerinde verilere daha hızlı erişebilmek için bu verilerin b
 **Sliding Time:** Cache'lenmiş datanın memory'de belirtilen süre periyodu zarfında tutulmasını belirtir. Belirtilen süre periyodu içerisinde cache'e yapılan erişim neticesinde de datanın ömrü bir o kadar uzatılacaktır. Aksi taktirde belirtilen süre zarfında bir erişim söz konusu olmazsa cache temizlenecektir.
 
 ![Expiration](https://github.com/user-attachments/assets/fe0895e2-5aff-4e5d-a19a-dea56921fba1)
-
-
-
-
 
 
 
