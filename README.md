@@ -208,14 +208,11 @@ docker inspect -f "{{ range .NetworkSettings.Networks }}{{.IPAddress}}{{end}}" r
 
 **Adım 5:** 3 adet sentinel sunucu ayağa kaldıralım. Sentinel default port 26379'dur.
 ```bash
-docker inspect -f "{{ range .NetworkSettings.Networks }}{{.IPAddress}}{{end}}" redis-master
-```
-#### Örnek Sentinel Sunucusu Oluşturma
-```bash
 docker run -d --name redis-sentinel-1 -p 1250:26379 --network redis-network -v C:\Redis\sentinel.conf:/usr/local/etc/redis/sentinel.conf redis redis-sentinel /usr/local/etc/redis/sentinel.conf
 docker run -d --name redis-sentinel-2 -p 1251:26379 --network redis-network -v C:\Redis\sentinel.conf:/usr/local/etc/redis/sentinel.conf redis redis-sentinel /usr/local/etc/redis/sentinel.conf
 docker run -d --name redis-sentinel-3 -p 1252:26379 --network redis-network -v C:\Redis\sentinel.conf:/usr/local/etc/redis/sentinel.conf redis redis-sentinel /usr/local/etc/redis/sentinel.conf
 ```
+
 
 
 
