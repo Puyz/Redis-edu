@@ -151,12 +151,18 @@ Sentinel sunucusu, failover işlemi gerçekleştirdiği taktirde yeni master'ın
 ### Tek Sentinel Sunuculu Mimari
 Tek Sentinel sunuculu mimaride slave sunucular, master sunucunun replikasyonuyla çalışır ve ihtiyaç halinde master sunucu olabilir. Sentinel sunucusu, master ve slave sunucuların IP adreslerini bilir ve senkronizasyonu sağlar.
 
+![Sentinel1](https://github.com/user-attachments/assets/86ad30cd-7a4b-40ba-8de9-a342140812b0)
+
+
 ### Birden Fazla Sentinel Sunuculu Mimari
 Birden fazla sentinel sunucusu olduğunda, lideri belirlemek için sentinel sunucuları kendi aralarında oylama yapar. Bu oylama sonucunda otomatik olarak bir lider seçilir. Leader’ı belirlemek için ekstra yapılandırmaya gerek yoktur, sentinel sunucularının iletişim halinde olmaları yeterlidir.
 
 **!!!** *Tek sentinel sunuculu konfigürasyon ile çoklu sentinel sunucu konfigürasyonu arasında **fark bulunmamaktadır.***
 
 ### Örnek Birden Fazla Sentinel Sunuculu Mimari Oluşturma
+
+![Sentinel2](https://github.com/user-attachments/assets/cd38046d-4545-47cf-9487-cb3987a27ab0)
+
 
 **Adım 1:** Öncelikle ortak bir ağ oluşturalım.
 ```bash
