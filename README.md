@@ -188,7 +188,7 @@ docker run -d --name redis-slave-3 -p 1336:6379 --network redis-network redis re
 ```conf
 # Sentinel tarafından izlenecek Master sunucusu
 # <IP> <PORT> <Sentinel Sunucu Sayısı> 
-sentinel monitor mymaster 172.18.0.2 1333 3
+sentinel monitor mymaster 172.18.0.2 6379 3
 
 # Master sunucunun tepki vermemesi durumunda Sentinel'in bekleme süresi
 sentinel down-after-milliseconds mymaster 5000
