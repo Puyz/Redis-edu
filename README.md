@@ -188,7 +188,7 @@ docker run -d --name redis-slave-3 -p 1336:6379 --network redis-network redis re
 ```conf
 # Sentinel tarafından izlenecek Master sunucusu
 # <IP> <PORT> <Sentinel Sunucu Sayısı> 
-sentinel monitor mymaster 172.18.0.2 1333 3
+sentinel monitor mymaster 172.18.0.2 6379 3
 
 # Master sunucunun tepki vermemesi durumunda Sentinel'in bekleme süresi
 sentinel down-after-milliseconds mymaster 5000
@@ -208,14 +208,11 @@ docker inspect -f "{{ range .NetworkSettings.Networks }}{{.IPAddress}}{{end}}" r
 
 **Adım 5:** 3 adet sentinel sunucu ayağa kaldıralım. Sentinel default port 26379'dur.
 ```bash
-docker inspect -f "{{ range .NetworkSettings.Networks }}{{.IPAddress}}{{end}}" redis-master
-```
-#### Örnek Sentinel Sunucusu Oluşturma
-```bash
 docker run -d --name redis-sentinel-1 -p 1250:26379 --network redis-network -v C:\Redis\sentinel.conf:/usr/local/etc/redis/sentinel.conf redis redis-sentinel /usr/local/etc/redis/sentinel.conf
 docker run -d --name redis-sentinel-2 -p 1251:26379 --network redis-network -v C:\Redis\sentinel.conf:/usr/local/etc/redis/sentinel.conf redis redis-sentinel /usr/local/etc/redis/sentinel.conf
 docker run -d --name redis-sentinel-3 -p 1252:26379 --network redis-network -v C:\Redis\sentinel.conf:/usr/local/etc/redis/sentinel.conf redis redis-sentinel /usr/local/etc/redis/sentinel.conf
 ```
+
 
 
 
